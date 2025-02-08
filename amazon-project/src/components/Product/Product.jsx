@@ -2,53 +2,45 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import ProductCard from './ProductCard'
 import classes from './Product.module.css'
+import Loader from '../Loader/Loader'
 const Product = () => {
-      const [products,setproducts] =useState([]);
+      const [products,setproducts] = useState([]);
+      const [isLoading,setIsloading]= useState(false)
          useEffect(()=>{
+          setIsloading(true)
           axios.get("https://fakestoreapi.com/products")
           .then((res)=>{
-            console.log(res) 
-            setproducts(res.data)     
+            
+            setproducts(res.data)
+            setIsloading(false)     
           }).catch((error)=>{
-              console.log(error)      
+              console.log(error)
+              setIsloading(false)      
           })
          },[])
   return (
-    <section className={classes.product_container}>
-      {products.length > 0 ? (
-        products.map((singleproduct) => (
-          <ProductCard product={singleproduct} key={singleproduct.id} />
-        ))
+    <>
+      {isLoading ? (
+        <Loader />
       ) : (
-        <p>Loading products...</p> // Placeholder while loading
+        <section className={classes.product_container}>
+          {products.map((singleproduct) => {
+           return <ProductCard product={singleproduct} key={singleproduct.id}  renderAdd={true}/>
+           })}
+        </section>
       )}
-    </section>
+    </>
   );
+  
 }
 
 export default Product
 
-//  {
-//    products.map((singleproduct) => {
-//      return <ProductCard Product={singleproduct} key={singleproduct.id} />;
-//    });
-//  }
+ 
+  
 
 
 
-
-  // return (
-  //   <section className={classes.product_container}>
-  //     {products.length > 0 ? (
-  //       products.map((singleproduct) => (
-  //         <ProductCard Product={singleproduct} key={singleproduct.id} />
-  //       )))
-
-
-  //      : (
-  //       <p>Loading products...</p> // Placeholder while loading
-  //      )
-  //     }
-  //   </section>
-  // );
-   
+//  products.map((singleproduct) => {
+//    <ProductCard Product={singleproduct} key={singleproduct.id} />;
+//  });

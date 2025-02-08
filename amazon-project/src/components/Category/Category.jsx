@@ -7,7 +7,7 @@ const Category = () => {
     <>
       <section className={classes.category_container}>
         {ImgCat.map((infos) => (
-          <CategoryCard key={infos.id} data={infos} />
+          <CategoryCard key={infos.id} data={infos}  renderAdd={true} />
         ))}
       </section>
     </>
